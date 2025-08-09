@@ -2,7 +2,7 @@ import sqlite3
 
 def connect_database():
     try:
-        sqliteConnection = sqlite3.connect('APPRENTICE_EMS.db')
+        sqliteConnection = sqlite3.connect('EMPLOYEE_EMS.db')
         cursor = sqliteConnection.cursor()
 
         # Integrity check
@@ -12,8 +12,8 @@ def connect_database():
 
         # Create Apprentices table
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Apprentices (
-                ApprenticeID INTEGER PRIMARY KEY CHECK(ApprenticeID >= 5001),
+            CREATE TABLE IF NOT EXISTS Employees (
+                ApprenticeID INTEGER PRIMARY KEY CHECK(EmploueeID >= 5001),
                 FirstName TEXT NOT NULL,
                 LastName TEXT NOT NULL,
                 Sex TEXT NOT NULL CHECK(Sex IN ('M', 'F')),
