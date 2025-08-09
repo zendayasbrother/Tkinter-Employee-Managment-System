@@ -11,7 +11,7 @@ def launch_ems(conn, cursor):
     customtkinter.set_default_color_theme("blue")
 
     app = customtkinter.CTk()
-    app.title('APPRENTICE EMS')
+    app.title('EMPLOYEE EMS')
     app.geometry("950x650")
     app.configure(bg='#17043d')
 
@@ -65,7 +65,7 @@ def launch_ems(conn, cursor):
             return False
 
     def fetch():
-        cursor.execute("SELECT ApprenticeID, FirstName, LastName, Sex, DOB, Role FROM Apprentices")
+        cursor.execute("SELECT EmployeeID, FirstName, LastName, Sex, DOB, Role FROM Apprentices")
         return cursor.fetchall()
 
     def display_data():
@@ -88,11 +88,11 @@ def launch_ems(conn, cursor):
                     sex_entry.get().upper(), dob_entry.get(), role_entry.get()
                 )
                 cursor.execute("""
-                    INSERT INTO Apprentices (ApprenticeID, FirstName, LastName, Sex, DOB, Role)
+                    INSERT INTO Employees (EmployeeID, FirstName, LastName, Sex, DOB, Role)
                     VALUES (?, ?, ?, ?, ?, ?)
                 """, details)
                 conn.commit()
-                messagebox.showinfo("Inserted", "Apprentice has been inserted.")
+                messagebox.showinfo("Inserted", "Employee has been inserted.")
                 display_data()
                 clear()
             except ValueError:
@@ -110,10 +110,10 @@ def launch_ems(conn, cursor):
                 dob_entry.get(), role_entry.get(), int(id_entry.get())
             )
             cursor.execute("""
-                UPDATE Apprentices SET FirstName=?, LastName=?, Sex=?, DOB=?, Role=? WHERE ApprenticeID=?
+                UPDATE Employees SET FirstName=?, LastName=?, Sex=?, DOB=?, Role=? WHERE ApprenticeID=?
             """, details)
             conn.commit()
-            messagebox.showinfo("Updated", "Apprentice has been updated.")
+            messagebox.showinfo("Updated", "Employee has been updated.")
             display_data()
             clear()
         except ValueError:
@@ -126,9 +126,9 @@ def launch_ems(conn, cursor):
             messagebox.showerror("Error", "Please enter an ID to delete.")
         else:
             try:
-                cursor.execute("DELETE FROM Apprentices WHERE ApprenticeID=?", (int(id_entry.get()),))
+                cursor.execute("DELETE FROM Employees WHERE ApprenticeID=?", (int(id_entry.get()),))
                 conn.commit()
-                messagebox.showinfo("Deleted", "Apprentice has been deleted.")
+                messagebox.showinfo("Deleted", "Employee has been deleted.")
                 display_data()
                 clear()
             except ValueError:
@@ -151,20 +151,20 @@ def launch_ems(conn, cursor):
             role_entry.insert(0, row[5])
 
     # BUTTONS
-    insert_btn = customtkinter.CTkButton(app, text="Insert", command=insert, font=font2, width=200)
-    insert_btn.place(x=140, y=300)
+    insert_button = customtkinter.CTkButton(app, text="Insert", command=insert, font=font2, width=200)
+    insert_button.place(x=140, y=300)
 
-    update_btn = customtkinter.CTkButton(app, text="Update", command=update, font=font2, width=200)
-    update_btn.place(x=140, y=350)
+    update_button = customtkinter.CTkButton(app, text="Update", command=update, font=font2, width=200)
+    update_button.place(x=140, y=350)
 
-    delete_btn = customtkinter.CTkButton(app, text="Delete", command=delete, font=font2, width=200)
-    delete_btn.place(x=140, y=400)
+    delete_button = customtkinter.CTkButton(app, text="Delete", command=delete, font=font2, width=200)
+    delete_buttn.place(x=140, y=400)
 
-    clear_btn = customtkinter.CTkButton(app, text="Clear", command=clear, font=font2, width=200)
-    clear_btn.place(x=140, y=450)
+    clear_button = customtkinter.CTkButton(app, text="Clear", command=clear, font=font2, width=200)
+    clear_button.place(x=140, y=450)
 
-    refresh_btn = customtkinter.CTkButton(app, text="Refresh", command=display_data, font=font2, width=200)
-    refresh_btn.place(x=140, y=500)
+    refresh_button = customtkinter.CTkButton(app, text="Refresh", command=display_data, font=font2, width=200)
+    refresh_button.place(x=140, y=500)
 
     # BIND TREEVIEW
     tv.bind("<ButtonRelease-1>", get_data)
