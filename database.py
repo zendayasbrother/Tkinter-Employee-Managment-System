@@ -2,17 +2,22 @@ import sqlite3
 
 def connect_database():
     try:
-        sqliteConnection = sqlite3.connect('Employee EMS.db')
+        sqliteConnection = sqlite3.connect('APPRENTICE_EMS.db')
         cursor = sqliteConnection.cursor()
+
+        # Integrity check
+        cursor.execute("PRAGMA integrity_check;")
+        if cursor.fetchone()[0] != "ok":
+            raise sqlite3.DatabaseError("Database integrity check failed.")
 
         # Create Apprentices table
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Employees (
-                ApprenticeID INTEGER PRIMARY KEY CHECK(EmployeesID >= 5001),
+            CREATE TABLE IF NOT EXISTS Apprentices (
+                ApprenticeID INTEGER PRIMARY KEY CHECK(ApprenticeID >= 5001),
                 FirstName TEXT NOT NULL,
                 LastName TEXT NOT NULL,
                 Sex TEXT NOT NULL CHECK(Sex IN ('M', 'F')),
-                DOB DATE,
+                DOB TEXT,
                 Role TEXT NOT NULL
             )
         """)
@@ -26,7 +31,7 @@ def connect_database():
         """)
 
         # Insert default admin if not exists
-        cursor.execute("INSERT OR IGNORE INTO Administrators (username, password) VALUES (?, ?)", (?, ?))
+        cursor.execute("INSERT OR IGNORE INTO Administrators (username, password) VALUES (?, ?)", ('zendayasbrother', '79022'))
 
         sqliteConnection.commit()
         return sqliteConnection, cursor
